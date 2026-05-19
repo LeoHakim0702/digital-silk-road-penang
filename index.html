@@ -138,8 +138,9 @@ h4{font-size:clamp(.95rem,1.3vw,1.15rem);color:var(--teal-deep);font-weight:600}
   border-radius:3px;max-width:min(46vw,540px);
 }
 .author-logo{
-  height:clamp(56px,7vh,84px);width:auto;flex-shrink:0;
-  filter:brightness(0) invert(1);opacity:.95;
+  height:clamp(56px,7vh,82px);width:auto;flex-shrink:0;
+  background:var(--paper);padding:.45rem .65rem;border-radius:2px;
+  box-shadow:0 1px 0 rgba(0,0,0,.15);
 }
 .author-text{font-family:var(--font-body);line-height:1.3}
 .author-name{
@@ -272,16 +273,44 @@ h4{font-size:clamp(.95rem,1.3vw,1.15rem);color:var(--teal-deep);font-weight:600}
 }
 .zone-label.dark{color:var(--paper);text-shadow:0 0 4px rgba(6,39,52,.9)}
 
-/* ===== Batu Kawan stylized basemap (Slide 13) ===== */
+/* ===== Batu Kawan satellite basemap with artistic processing (Slide 13) ===== */
 .bk-basemap{
   position:absolute;inset:0;width:100%;height:100%;pointer-events:none;
-  opacity:.32;
+  z-index:0;overflow:hidden;
 }
-.bk-basemap svg{width:100%;height:100%}
+.bk-basemap img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  /* artistic: deep teal duotone with high contrast */
+  filter:saturate(.25) contrast(1.35) brightness(.55) hue-rotate(165deg);
+  opacity:.85;
+}
+.bk-basemap::after{
+  /* warm color wash to create teal→amber duotone */
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg, rgba(6,39,52,.78) 0%, rgba(15,76,92,.55) 45%, rgba(224,137,42,.32) 100%);
+  mix-blend-mode:multiply;
+}
+.bk-basemap::before{
+  /* subtle vignette */
+  content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center, transparent 30%, rgba(6,39,52,.7) 100%);
+}
 .bk-halftone{
   position:absolute;inset:0;pointer-events:none;z-index:1;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='5'><circle cx='2.5' cy='2.5' r='.6' fill='%23e0892a' fill-opacity='.55'/></svg>");
-  mix-blend-mode:soft-light;opacity:.5;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='5' height='5'><circle cx='2.5' cy='2.5' r='.55' fill='%23e0892a' fill-opacity='.7'/></svg>");
+  mix-blend-mode:overlay;opacity:.4;
+}
+.bk-watermark{
+  position:absolute;top:14px;left:18px;z-index:2;
+  font-family:"Fraunces",serif;font-style:italic;
+  color:rgba(244,236,219,.4);letter-spacing:.04em;
+  font-size:clamp(1rem,1.4vw,1.3rem);
+  pointer-events:none;user-select:none;
+}
+.bk-watermark small{
+  display:block;font-family:"JetBrains Mono",monospace;
+  font-style:normal;font-size:.55em;letter-spacing:.18em;
+  color:rgba(244,236,219,.3);margin-top:.2em;
 }
 
 /* ===== Merged Daily Frictions (Slide 14) ===== */
@@ -971,7 +1000,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
 </section>
 
 <!-- ============ 5. INTERACTIVE MAP ============ -->
-<section class="slide map-slide toner-active" data-dark="1" data-map="1">
+<section class="slide map-slide" data-dark="1" data-map="1">
   <div class="rail" style="color:rgba(244,236,219,.6)"><span style="background:rgba(6,39,52,.7);padding:.3em .8em">研究场域<span class="dot"></span>地理坐标</span><span style="background:rgba(6,39,52,.7);padding:.3em .8em">05 / 18</span></div>
 
   <div id="leaflet-map"></div>
@@ -983,7 +1012,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
     <button class="map-btn" data-fly="batukawan">◉ Batu Kawan 工业区</button>
     <button class="map-btn" data-fly="kl">○ 吉隆坡 DBKL</button>
     <button class="map-btn" data-fly="johor">○ 柔佛数据中心</button>
-    <button class="map-btn" data-toggle-layer="1" style="margin-top:.5rem;border-top:1px dashed rgba(244,236,219,.3);padding-top:.8rem">⇄ 切换 Toner / 卫星</button>
+    <button class="map-btn" data-toggle-layer="1" style="margin-top:.5rem;border-top:1px dashed rgba(244,236,219,.3);padding-top:.8rem">⇄ 切换 卫星 / Toner</button>
   </div>
 
   <div class="map-panel reveal">
@@ -1342,89 +1371,12 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
     <div class="bk-field reveal" id="bkField">
       <div class="bk-stage" id="bkStage">
 
-        <!-- Stylized Batu Kawan basemap (artistic schematic) -->
+        <!-- Real satellite-style background image with artistic duotone processing -->
         <div class="bk-basemap">
-          <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
-            <defs>
-              <!-- halftone dot pattern -->
-              <pattern id="bkDots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-                <circle cx="4" cy="4" r="1" fill="#e0892a" fill-opacity=".7"/>
-              </pattern>
-              <pattern id="bkLines" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <line x1="0" y1="0" x2="0" y2="8" stroke="#5f8a6a" stroke-width="1" stroke-opacity=".6"/>
-              </pattern>
-              <pattern id="bkCross" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                <path d="M0,5 L10,5 M5,0 L5,10" stroke="#0f4c5c" stroke-width=".6" stroke-opacity=".55"/>
-              </pattern>
-              <pattern id="bkGrid" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
-                <path d="M0,0 L14,0 L14,14" stroke="#c97b3a" stroke-width=".5" stroke-opacity=".5" fill="none"/>
-              </pattern>
-              <pattern id="bkSea" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
-                <path d="M0,6 Q3,4 6,6 T12,6" stroke="rgba(244,236,219,.18)" stroke-width=".6" fill="none"/>
-              </pattern>
-            </defs>
-
-            <!-- Sea background (water texture) -->
-            <rect width="800" height="500" fill="url(#bkSea)"/>
-
-            <!-- Penang Island (LEFT, gets cut off — geographic accuracy: Batu Kawan is on mainland, Penang Island is to the west) -->
-            <path d="M -50 80 Q 80 60 130 130 Q 160 200 140 280 Q 110 360 50 410 L -50 430 Z"
-                  fill="url(#bkDots)" stroke="#e0892a" stroke-width="1.2" stroke-opacity=".6"/>
-            <text x="40" y="240" font-family="Fraunces" font-style="italic" font-size="16" fill="rgba(224,137,42,.55)" letter-spacing="2">PENANG ISLAND</text>
-            <text x="40" y="258" font-family="JetBrains Mono" font-size="9" fill="rgba(224,137,42,.4)" letter-spacing="3">⟵ 槟岛 · George Town</text>
-
-            <!-- Second Penang Bridge connecting island to mainland (Batu Kawan) -->
-            <g stroke="#e0892a" stroke-width="2.5" stroke-opacity=".8" fill="none">
-              <path d="M 130 230 Q 220 220 290 235" stroke-dasharray="6 4"/>
-              <circle cx="135" cy="230" r="3" fill="#e0892a"/>
-              <circle cx="295" cy="235" r="3" fill="#e0892a"/>
-            </g>
-            <text x="180" y="210" font-family="JetBrains Mono" font-size="8" fill="rgba(224,137,42,.65)" letter-spacing="2">⟵ 2ND PENANG BRIDGE 24KM ⟶</text>
-
-            <!-- Mainland / Seberang Perai coastline (right side, where Batu Kawan is) -->
-            <path d="M 290 0 L 290 60 Q 285 130 295 235 Q 300 320 320 400 Q 340 470 360 500 L 800 500 L 800 0 Z"
-                  fill="rgba(244,236,219,.05)" stroke="#c97b3a" stroke-width="1.2" stroke-opacity=".5"/>
-
-            <!-- BATU KAWAN INDUSTRIAL PARK polygon (the main area) -->
-            <path d="M 310 180 L 480 160 L 600 200 L 640 280 L 600 380 L 480 410 L 350 380 L 310 280 Z"
-                  fill="url(#bkGrid)" stroke="#e0892a" stroke-width="1.5" stroke-opacity=".7" stroke-dasharray="4 2"/>
-
-            <!-- Industrial parcel divisions inside -->
-            <g stroke="#c97b3a" stroke-width=".6" stroke-opacity=".4" fill="none">
-              <line x1="380" y1="170" x2="420" y2="400"/>
-              <line x1="470" y1="165" x2="510" y2="405"/>
-              <line x1="555" y1="180" x2="585" y2="395"/>
-              <line x1="320" y1="240" x2="635" y2="280"/>
-              <line x1="325" y1="320" x2="625" y2="340"/>
-            </g>
-
-            <!-- Sungai (river) -->
-            <path d="M 360 500 Q 380 460 400 420 Q 430 380 460 350 Q 490 310 510 270 Q 530 230 550 180 Q 565 120 580 80 L 590 0"
-                  stroke="rgba(15,76,92,.4)" stroke-width="2" fill="none" stroke-dasharray="2 5"/>
-
-            <!-- Main road/highway -->
-            <g stroke="rgba(244,236,219,.35)" stroke-width="1.5" fill="none">
-              <path d="M 290 90 L 800 110"/>
-              <path d="M 295 460 L 800 470"/>
-              <path d="M 295 235 L 800 250"/>
-            </g>
-
-            <!-- Park name label (large, decorative) -->
-            <g opacity=".22">
-              <text x="475" y="270" text-anchor="middle" font-family="Fraunces" font-size="42" fill="#f4ecdb" font-weight="300" letter-spacing="4">BATU KAWAN</text>
-              <text x="475" y="296" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#f4ecdb" letter-spacing="8">INDUSTRIAL PARK · 2,680 HA</text>
-            </g>
-
-            <!-- Compass rose (top-right) -->
-            <g transform="translate(740,60)" stroke="#e0892a" stroke-width=".5" stroke-opacity=".5" fill="none">
-              <circle r="22"/><circle r="14"/>
-              <line x1="0" y1="-25" x2="0" y2="25"/>
-              <line x1="-25" y1="0" x2="25" y2="0"/>
-              <text y="-28" text-anchor="middle" font-family="Fraunces" font-size="8" fill="rgba(224,137,42,.7)">N</text>
-            </g>
-          </svg>
+          <img src="Batu%20Kawan.jpg" alt="Batu Kawan aerial view"/>
         </div>
         <div class="bk-halftone"></div>
+        <div class="bk-watermark">Batu Kawan<small>5.236°N · 100.427°E · 2,680 HA</small></div>
 
         <div class="bk-bg-text legend">click an actor → reveal its supply / membership links</div>
 
@@ -1783,8 +1735,12 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
   <div class="rail"><span>谢谢 · Thank You · Terima Kasih</span><span>18 / 18</span></div>
   <div class="slide-content">
     <div class="eyebrow reveal" style="color:var(--saffron-hot)">CODA</div>
-    <h2 class="reveal" style="max-width:30ch;font-size:clamp(1.4rem,3vw,2.4rem);font-weight:300;line-height:1.25">
-      只有将分析尺度下沉到其实际落地的<em style="font-style:italic;color:var(--saffron-hot)">社会场域</em>，<br/>才能触及其真实的运作机制。
+    <h1 class="reveal" style="font-size:clamp(2.6rem,5.5vw,4.6rem);font-weight:300;color:var(--paper);line-height:1.1;letter-spacing:.02em;margin-bottom:.2em">
+      感谢<em style="font-style:italic;color:var(--saffron-hot);font-weight:500">聆听</em>
+      <span style="display:block;font-family:Fraunces,serif;font-style:italic;font-size:.4em;color:rgba(244,236,219,.55);font-weight:300;letter-spacing:.06em;margin-top:.3em">Thank You · Terima Kasih</span>
+    </h1>
+    <h2 class="reveal" style="max-width:32ch;font-size:clamp(1.05rem,1.8vw,1.55rem);font-weight:300;line-height:1.35;color:rgba(244,236,219,.75);margin-top:.6em">
+      只有将分析尺度下沉到其实际落地的<em style="font-style:italic;color:var(--saffron-hot)">社会场域</em>，才能触及其真实的运作机制。
     </h2>
 
     <!-- ====== REFERENCE CLUSTER ====== -->
@@ -1880,38 +1836,38 @@ function initMap(){
   });
   mapState.labelLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19, opacity:.85});
 
-  // Default: toner mode
-  mapState.tonerLayer.addTo(m);
-  document.getElementById('leaflet-map').classList.add('toner-mode');
+  // Default: satellite mode (more reliable visually)
+  mapState.satLayer.addTo(m);
+  mapState.labelLayer.addTo(m);
+  mapState.currentLayer='sat';
 
-  // ===== Stylized zones — rough polygons of key territories =====
-  // Each zone uses a distinct fill pattern via SVG renderer + className
-  const Z = [
-    {name:'PENANG 槟城州 · 核心场域', color:'#e0892a', halftone:'dots', coords:[
-      [5.477,100.18],[5.477,100.30],[5.42,100.36],[5.35,100.36],[5.27,100.32],[5.18,100.31],[5.13,100.40],[5.20,100.55],[5.36,100.60],[5.51,100.55],[5.51,100.30]
-    ]},
-    {name:'KEDAH 吉打', color:'#9b3a26', halftone:'lines', coords:[
-      [6.45,100.10],[6.45,100.92],[6.05,100.95],[5.51,100.55],[5.51,100.30],[5.85,100.18],[6.20,100.05]
-    ]},
-    {name:'PERAK 霹雳', color:'#5f8a6a', halftone:'cross', coords:[
-      [5.13,100.40],[5.20,100.55],[5.05,101.20],[4.30,101.80],[3.80,101.40],[3.95,100.90],[4.40,100.50]
-    ]},
-    {name:'SELANGOR · KL 都会区', color:'#0f4c5c', halftone:'grid', coords:[
-      [3.70,101.30],[3.70,101.95],[3.05,101.95],[2.70,101.85],[2.70,101.40],[3.10,101.30]
-    ]},
-    {name:'JOHOR 柔佛 · 数据中心', color:'#c97b3a', halftone:'dotsLg', coords:[
-      [2.30,103.30],[2.30,104.15],[1.55,104.20],[1.30,104.00],[1.30,103.30],[1.85,103.05]
-    ]}
+  // ===== Radial "field of influence" circles =====
+  // Each location has a CORE (strong) + outer FIELD (faint, larger) — representing radiation
+  const fields = [
+    {name:'槟城州 · 核心场域',     lat:5.4145, lng:100.3292, color:'#e0892a', core:6000,  field:28000, label:'PENANG · CORE FIELDSITE'},
+    {name:'Batu Kawan 工业区',     lat:5.2356, lng:100.4267, color:'#c97b3a', core:3500,  field:12000, label:'BATU KAWAN'},
+    {name:'吉隆坡 · DBKL',         lat:3.1390, lng:101.6869, color:'#0f4c5c', core:8000,  field:34000, label:'KUALA LUMPUR'},
+    {name:'柔佛 · 数据中心',       lat:1.4927, lng:103.7414, color:'#5f8a6a', core:6500,  field:30000, label:'JOHOR'}
   ];
 
-  Z.forEach(z=>{
-    const poly = L.polygon(z.coords,{
-      color:z.color,weight:2,
-      fillColor:z.color,fillOpacity:.22,
-      dashArray:'4 3',className:'zone-poly zone-'+z.halftone
+  fields.forEach(f=>{
+    // outer field — large faint circle (radiation)
+    const outer = L.circle([f.lat,f.lng],{
+      radius:f.field*1.8, color:f.color, weight:1, opacity:.35,
+      fillColor:f.color, fillOpacity:.05, dashArray:'2 5'
     }).addTo(m);
-    poly.bindTooltip(z.name,{permanent:false,direction:'center',className:'zone-label'});
-    mapState.zones.push(poly);
+    // middle ring
+    const mid = L.circle([f.lat,f.lng],{
+      radius:f.field, color:f.color, weight:1.2, opacity:.55,
+      fillColor:f.color, fillOpacity:.08, dashArray:'3 3'
+    }).addTo(m);
+    // inner core — solid presence
+    const core = L.circle([f.lat,f.lng],{
+      radius:f.core, color:f.color, weight:2, opacity:.95,
+      fillColor:f.color, fillOpacity:.35
+    }).addTo(m);
+    core.bindTooltip(f.label,{permanent:true,direction:'center',className:'zone-label dark',offset:[0,-22]});
+    mapState.zones.push(outer,mid,core);
   });
 
   const mk = (lat,lng,cls,label,desc)=>{
