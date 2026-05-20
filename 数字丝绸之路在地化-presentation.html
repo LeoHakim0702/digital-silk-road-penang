@@ -255,16 +255,16 @@ h4{font-size:clamp(.95rem,1.3vw,1.15rem);color:var(--teal-deep);font-weight:600}
 .election-timeline .ph{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rust);margin:.3em auto 0;box-shadow:0 0 0 3px rgba(155,58,38,.2)}
 
 /* ===== Map enhancements (Slide 5) ===== */
-.map-slide #leaflet-map.toner-mode{background:#f4ecdb}
+.map-slide #leaflet-map.toner-mode{background:#e8dcc4}
 .map-slide #leaflet-map.toner-mode .leaflet-tile-container{
-  filter:contrast(1.15) brightness(1.02);
+  filter:saturate(1.05) contrast(1.02);
 }
 .map-halftone{
   position:absolute;inset:0;pointer-events:none;z-index:2;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='6'><circle cx='3' cy='3' r='.7' fill='%23062734' fill-opacity='.5'/></svg>");
   mix-blend-mode:multiply;opacity:0;transition:opacity .5s ease;
 }
-.map-slide.toner-active .map-halftone{opacity:.35}
+.map-slide.toner-active .map-halftone{opacity:0}
 .zone-label{
   background:transparent;border:none;
   color:#062734;font-family:"Fraunces",serif;font-style:italic;font-weight:600;
@@ -1015,7 +1015,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
     <button class="map-btn" data-fly="batukawan">◉ Batu Kawan 工业区</button>
     <button class="map-btn" data-fly="kl">○ 吉隆坡 DBKL</button>
     <button class="map-btn" data-fly="johor">○ 柔佛数据中心</button>
-    <button class="map-btn" data-toggle-layer="1" style="margin-top:.5rem;border-top:1px dashed rgba(244,236,219,.3);padding-top:.8rem">⇄ 切换 卫星 / Toner</button>
+    <button class="map-btn" data-toggle-layer="1" style="margin-top:.5rem;border-top:1px dashed rgba(244,236,219,.3);padding-top:.8rem">⇄ 切换 卫星 / National Geographic</button>
   </div>
 
   <div class="map-panel reveal">
@@ -1833,15 +1833,11 @@ function initMap(){
   mapState.satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
     attribution:'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics', maxZoom:19
   });
-  // Esri World Light Gray Canvas — robust toner-style basemap (free, no API key, no CORS issues)
-  mapState.tonerLayer = L.layerGroup([
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{
-      attribution:'Tiles © Esri — Esri, DeLorme, NAVTEQ', maxZoom:16
-    }),
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',{
-      maxZoom:16, opacity:.95
-    })
-  ]);
+  // Esri National Geographic World Map (ArcGIS item f33a34de3a294590ab48f246e99958c9)
+  mapState.tonerLayer = L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',{
+    attribution:'Tiles © Esri — National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+    maxZoom:16
+  });
   mapState.labelLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19, opacity:.85});
 
   // Default: satellite mode (more reliable visually)
@@ -1925,16 +1921,16 @@ document.querySelectorAll('.map-btn[data-toggle-layer]').forEach(btn=>{
       mapState.currentLayer='sat';
       mapEl.classList.remove('toner-mode');
       slide.classList.remove('toner-active');
-      btn.textContent='⇄ 切换 卫星 / Toner';
+      btn.textContent='⇄ 切换 卫星 / National Geographic';
     } else {
-      // satellite → toner
+      // satellite → NatGeo
       mapState.map.removeLayer(mapState.satLayer);
       mapState.map.removeLayer(mapState.labelLayer);
       mapState.tonerLayer.addTo(mapState.map);
       mapState.currentLayer='toner';
       mapEl.classList.add('toner-mode');
       slide.classList.add('toner-active');
-      btn.textContent='⇄ 切换 Toner / 卫星';
+      btn.textContent='⇄ 切换 National Geographic / 卫星';
     }
   });
 });
