@@ -255,15 +255,16 @@ h4{font-size:clamp(.95rem,1.3vw,1.15rem);color:var(--teal-deep);font-weight:600}
 .election-timeline .ph{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--rust);margin:.3em auto 0;box-shadow:0 0 0 3px rgba(155,58,38,.2)}
 
 /* ===== Map enhancements (Slide 5) ===== */
+.map-slide #leaflet-map.toner-mode{background:#f4ecdb}
 .map-slide #leaflet-map.toner-mode .leaflet-tile-container{
-  filter:grayscale(1) contrast(1.45) brightness(.92);
+  filter:contrast(1.15) brightness(1.02);
 }
 .map-halftone{
   position:absolute;inset:0;pointer-events:none;z-index:2;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='6' height='6'><circle cx='3' cy='3' r='.7' fill='%23062734' fill-opacity='.5'/></svg>");
   mix-blend-mode:multiply;opacity:0;transition:opacity .5s ease;
 }
-.map-slide.toner-active .map-halftone{opacity:.6}
+.map-slide.toner-active .map-halftone{opacity:.35}
 .zone-label{
   background:transparent;border:none;
   color:#062734;font-family:"Fraunces",serif;font-style:italic;font-weight:600;
@@ -533,6 +534,8 @@ h4{font-size:clamp(.95rem,1.3vw,1.15rem);color:var(--teal-deep);font-weight:600}
 .salary-row i{width:9px;height:9px;display:inline-block;border-radius:1px}
 .salary-row .lbl{color:var(--ink-soft)}
 .salary-row .v{font-family:var(--font-mono);color:var(--teal-deep);font-weight:600;white-space:nowrap}
+.salary-row .v em{font-style:normal;color:var(--muted);font-weight:400;font-size:.85em;margin-left:.35em}
+.salary-row.tot .v em{color:var(--rust);opacity:.85}
 .salary-row.tot{border-top:1px solid var(--line);padding-top:.4em;margin-top:.3em}
 .salary-row.tot .lbl{color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-size:.9em}
 .salary-row.tot .v{color:var(--saffron);font-size:1.05em}
@@ -1198,7 +1201,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
 <section class="slide">
   <div class="rail"><span>2 · 制度嵌入<span class="dot"></span>跨国不平等的日常</span><span>09 / 18</span></div>
   <div class="slide-content">
-    <div class="eyebrow reveal">SALARY COMPOSITION · MONTHLY EQUIVALENT (RM)</div>
+    <div class="eyebrow reveal">SALARY COMPOSITION · MONTHLY EQUIVALENT (RM &nbsp;|&nbsp; ≈ CNY @ 1 RM ≈ ¥1.70)</div>
     <h2 class="reveal" style="max-width:34ch">同一办公室 · 同样的语言 · 同样的工作 ——<br/>但<em style="font-style:italic;color:var(--saffron)">两个完全不同的坐标系</em></h2>
 
     <div class="salary-wrap reveal">
@@ -1208,7 +1211,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
         <div class="role-tag">本地华人员工 · LOCAL</div>
         <div class="role-name">USM 应届 + 1–2 年经验</div>
         <div class="role-sub">受马劳动力市场 + 政府规定 + 行业惯例约束<br/>H 公司较同水平本地企业高约 10–20%</div>
-        <div class="salary-total">≈ RM 4,200<small>月度综合 · 1× 基准</small></div>
+        <div class="salary-total">≈ RM 4,200<small>≈ ¥7,140 · 月度综合 · 1× 基准</small></div>
 
         <div class="salary-bar-wrap">
           <div class="salary-bar">
@@ -1217,10 +1220,10 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
             <div class="seg" style="height:7%;background:#a0c2a8"></div>
           </div>
           <div class="salary-table">
-            <div class="salary-row"><i style="background:#5f8a6a"></i><span class="lbl">基本工资</span><span class="v">RM 3,200</span></div>
-            <div class="salary-row"><i style="background:#7ba384"></i><span class="lbl">岗位津贴</span><span class="v">RM 700</span></div>
-            <div class="salary-row"><i style="background:#a0c2a8"></i><span class="lbl">交通 / 餐补</span><span class="v">RM 300</span></div>
-            <div class="salary-row tot"><i style="background:transparent"></i><span class="lbl">合计</span><span class="v">RM 4,200</span></div>
+            <div class="salary-row"><i style="background:#5f8a6a"></i><span class="lbl">基本工资</span><span class="v">RM 3,200 <em>≈ ¥5,440</em></span></div>
+            <div class="salary-row"><i style="background:#7ba384"></i><span class="lbl">岗位津贴</span><span class="v">RM 700 <em>≈ ¥1,190</em></span></div>
+            <div class="salary-row"><i style="background:#a0c2a8"></i><span class="lbl">交通 / 餐补</span><span class="v">RM 300 <em>≈ ¥510</em></span></div>
+            <div class="salary-row tot"><i style="background:transparent"></i><span class="lbl">合计</span><span class="v">RM 4,200 <em>≈ ¥7,140</em></span></div>
           </div>
         </div>
       </div>
@@ -1238,7 +1241,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
         <div class="role-tag">中国外派员工 · EXPAT</div>
         <div class="role-name">同岗位 · 同语言 · 同任务</div>
         <div class="role-sub">国内总部定价 + 跨国流动溢价<br/>受安全等级 / 物价 / 艰苦程度逐日计算</div>
-        <div class="salary-total" style="color:var(--saffron)">≈ RM 14,000 — 21,000<small>月度综合折算</small></div>
+        <div class="salary-total" style="color:var(--saffron)">≈ RM 14,000 — 21,000<small>≈ ¥23,800 — ¥35,700 · 月度综合折算</small></div>
 
         <div class="salary-bar-wrap">
           <div class="salary-bar" style="border-color:var(--saffron)">
@@ -1248,11 +1251,11 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
             <div class="seg" style="height:15%;background:#e0892a"></div>
           </div>
           <div class="salary-table">
-            <div class="salary-row"><i style="background:#062734"></i><span class="lbl">国内基本工资</span><span class="v">RM 4,500</span></div>
-            <div class="salary-row"><i style="background:#0f4c5c"></i><span class="lbl">外派补贴 · 日计</span><span class="v">RM 6,500</span></div>
-            <div class="salary-row"><i style="background:#c97b3a"></i><span class="lbl">年限补贴 · 摊销</span><span class="v">RM 2,500</span></div>
-            <div class="salary-row"><i style="background:#e0892a"></i><span class="lbl">住房 + 探亲 + 保险</span><span class="v">RM 2,500</span></div>
-            <div class="salary-row tot"><i style="background:transparent"></i><span class="lbl">合计</span><span class="v">RM 16,000</span></div>
+            <div class="salary-row"><i style="background:#062734"></i><span class="lbl">国内基本工资</span><span class="v">RM 4,500 <em>≈ ¥7,650</em></span></div>
+            <div class="salary-row"><i style="background:#0f4c5c"></i><span class="lbl">外派补贴 · 日计</span><span class="v">RM 6,500 <em>≈ ¥11,050</em></span></div>
+            <div class="salary-row"><i style="background:#c97b3a"></i><span class="lbl">年限补贴 · 摊销</span><span class="v">RM 2,500 <em>≈ ¥4,250</em></span></div>
+            <div class="salary-row"><i style="background:#e0892a"></i><span class="lbl">住房 + 探亲 + 保险</span><span class="v">RM 2,500 <em>≈ ¥4,250</em></span></div>
+            <div class="salary-row tot"><i style="background:transparent"></i><span class="lbl">合计</span><span class="v">RM 16,000 <em>≈ ¥27,200</em></span></div>
           </div>
         </div>
       </div>
@@ -1499,13 +1502,13 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
   <div class="rail"><span>4 / 5 · 运营结构 + 日常摩擦<span class="dot"></span>知识 + 时间</span><span>14 / 18</span></div>
   <div class="slide-content">
     <div class="eyebrow reveal">H COMPANY · LOCAL OPERATIONAL CHAIN</div>
-    <h2 class="reveal" style="max-width:42ch;font-size:clamp(1.3rem,2.6vw,2.1rem)">从<em style="font-style:italic;color:var(--saffron)">杭州总部</em>到<em style="font-style:italic;color:var(--saffron)">北马终端用户</em>——<br/>五个环节，每一处都是"翻译鸿沟"的现场</h2>
+    <h2 class="reveal" style="max-width:44ch;font-size:clamp(1.3rem,2.6vw,2.1rem)">从<em style="font-style:italic;color:var(--saffron)">国内总部</em>到<em style="font-style:italic;color:var(--saffron)">北马终端用户</em>——<br/>知识与技术的<em style="font-style:italic;color:var(--saffron)">逐级转译</em>，每一层都在损耗</h2>
 
     <!-- ===== Horizontal operational chain ===== -->
     <div class="op-chain reveal">
       <div class="op-step">
         <span class="num">01</span>
-        <span class="name">杭州总部<small>HQ · 中国</small></span>
+        <span class="name">国内总部<small>HQ · 中国</small></span>
         <div class="meta">全球安防龙头<br/>研发 · 全球品牌<br/><b>实体清单 (2019)</b></div>
       </div>
       <div class="op-arrow">→</div>
@@ -1545,7 +1548,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
         <h3>知识嵌入 · 四种摩擦 <small>· KNOWLEDGE</small></h3>
         <ul class="bullets" style="margin-top:.4rem;font-size:var(--small-size)">
           <li><b>气候摩擦</b> · 27—32°C / 湿度 70—90% / 盐雾 / 温差凝露 —— 防护等级只是起点</li>
-          <li><b>逐级转译损耗</b> · 杭州 → 外派 → 本地华人工程师 → SI 安装队（英 / 马来），每次都有损耗</li>
+          <li><b>知识技术的逐级转译</b> · 国内总部 → 外派 → 本地华人工程师 → SI 安装队（英 / 马来）—— 每一层都在过滤、简化、再重述，技术细节随距离衰减</li>
           <li><b>典型故障</b> · 安装队跳过后台参数配置，AI 智能分析功能上线后处于未激活状态</li>
           <li><b>人才流动</b> · USM 实习生 → 本地 SI 中具品牌技术背景的"种子"，是技术本地化的真正引擎</li>
         </ul>
@@ -1574,7 +1577,7 @@ body.dark-section .hint{color:rgba(244,236,219,.5)}
     </div>
 
     <p class="reveal" style="margin-top:.6rem;font-family:var(--font-display);font-style:italic;color:var(--teal);font-size:clamp(.9rem,1.3vw,1.2rem);max-width:84ch;line-height:1.5;text-align:center">
-      上方的五个环节，下方的两类摩擦 —— 都是<b style="font-style:normal;color:var(--teal-deep)">总部期待 / 田野现实</b>之间的翻译鸿沟。
+      上方的五个环节，下方的两类摩擦 —— 是<b style="font-style:normal;color:var(--teal-deep)">总部期待 / 田野现实</b>之间，知识与技术被逐级转译、衰减、再重组的过程。
     </p>
   </div>
 </section>
@@ -1830,10 +1833,15 @@ function initMap(){
   mapState.satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{
     attribution:'Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics', maxZoom:19
   });
-  // CARTO Positron (no labels) — free, no API key, gives clean toner-like look with our halftone overlay
-  mapState.tonerLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',{
-    attribution:'© OpenStreetMap contributors © CARTO', subdomains:'abcd', maxZoom:19
-  });
+  // Esri World Light Gray Canvas — robust toner-style basemap (free, no API key, no CORS issues)
+  mapState.tonerLayer = L.layerGroup([
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',{
+      attribution:'Tiles © Esri — Esri, DeLorme, NAVTEQ', maxZoom:16
+    }),
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',{
+      maxZoom:16, opacity:.95
+    })
+  ]);
   mapState.labelLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',{maxZoom:19, opacity:.85});
 
   // Default: satellite mode (more reliable visually)
@@ -1885,18 +1893,6 @@ function initMap(){
 
   mapState.map = m;
 
-  // Stadia toner fallback: if tiles fail to load, fall back to CARTO Voyager
-  let tonerFails = 0;
-  mapState.tonerLayer.on('tileerror', ()=>{
-    tonerFails++;
-    if(tonerFails > 3 && mapState.currentLayer==='toner'){
-      console.warn('Stadia Toner unavailable, falling back to CARTO');
-      m.removeLayer(mapState.tonerLayer);
-      mapState.tonerLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',{
-        attribution:'© OpenStreetMap contributors © CARTO', maxZoom:19
-      }).addTo(m);
-    }
-  });
 }
 
 const flyTargets = {
