@@ -134,10 +134,10 @@ ul.pts li .en{font-family:var(--font);font-style:italic;color:var(--teal);font-s
 
 /* maps */
 .mapwrap{position:relative;flex:1;min-height:0;border-radius:10px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);background:#cfe0e6}
-.mapwrap .maptag{position:absolute;left:12px;top:12px;z-index:5;background:rgba(20,48,73,.86);color:#fbf4e4;
+.mapwrap .maptag{position:absolute;left:12px;top:12px;z-index:1200;background:rgba(20,48,73,.86);color:#fbf4e4;
   padding:7px 13px;border-radius:6px;font-size:13px;font-weight:600;letter-spacing:.04em;box-shadow:0 3px 10px rgba(0,0,0,.25);max-width:62%}
 .mapwrap .maptag .en{font-family:var(--font);font-style:italic;font-weight:400;opacity:.85;font-size:.85em}
-.legend{position:absolute;right:12px;bottom:26px;z-index:5;background:rgba(255,252,244,.93);border:1px solid var(--line);
+.legend{position:absolute;right:12px;bottom:26px;z-index:1200;background:rgba(255,252,244,.93);border:1px solid var(--line);
   border-radius:7px;padding:9px 12px;font-size:12px;box-shadow:0 3px 10px rgba(20,48,73,.18);max-width:210px}
 .legend h4{font-size:11px;letter-spacing:.12em;color:var(--ink-soft);margin-bottom:6px;font-weight:600}
 .legend .row{display:flex;align-items:center;gap:7px;margin:3px 0;color:var(--ink)}
@@ -228,10 +228,21 @@ ul.pts li .en{font-family:var(--font);font-style:italic;color:var(--teal);font-s
 .zoombtn{position:absolute;top:8px;right:8px;z-index:8;width:30px;height:30px;border-radius:6px;border:1px solid var(--line);background:rgba(255,252,244,.92);color:var(--indigo);font-size:16px;line-height:1;cursor:pointer;display:grid;place-items:center;opacity:0;transition:opacity .2s,background .2s,color .2s;box-shadow:0 2px 6px rgba(20,48,73,.22)}
 .fig:hover>.zoombtn,.mapwrap:hover>.zoombtn,.guji:hover>.zoombtn,.svgwrap:hover>.zoombtn,.timeline:hover>.zoombtn{opacity:.92}
 .zoombtn:hover{background:var(--indigo);color:#fff7e6;opacity:1}
-.zoombd{position:fixed;inset:0;background:rgba(18,28,42,.55);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);z-index:40;opacity:0;pointer-events:none;transition:opacity .42s}
+.zoombd{position:fixed;inset:0;background:rgba(14,20,32,.6);backdrop-filter:blur(7px) saturate(.72);-webkit-backdrop-filter:blur(7px) saturate(.72);z-index:1400;opacity:0;pointer-events:none;transition:opacity .45s}
 .zoombd.show{opacity:1;pointer-events:auto}
-.zoomed{z-index:50!important;box-shadow:0 24px 80px rgba(0,0,0,.5)!important;border-radius:10px!important;overflow:hidden}
-.zoomed>.zoombtn{opacity:1;background:var(--indigo);color:#fff7e6}
+.zoomstage{position:fixed;inset:0;z-index:1450;pointer-events:none}
+.zoomstage.show{pointer-events:auto}
+.zoomed{position:absolute;z-index:1460;box-shadow:0 30px 90px rgba(0,0,0,.55);border-radius:12px;overflow:hidden;pointer-events:auto}
+.zoomed>.zoombtn{opacity:1;background:var(--cinnabar);color:#fff7e6}
+.zoomed img{filter:none!important}
+.zoomed.svgwrap,.zoomed.timeline{background:var(--paper);padding:16px}
+.zoomed .cap{font-size:16px!important;line-height:1.5!important;padding:34px 20px 15px!important}
+.guji.zoom-scroll{overflow:visible!important;background:linear-gradient(180deg,#f4e8c8,#ecdcb0)!important;border:none!important;border-radius:2px!important;display:flex!important;align-items:center;justify-content:center;padding:28px 74px!important;box-shadow:0 30px 90px rgba(0,0,0,.55),inset 0 0 80px rgba(150,120,60,.16)!important}
+.guji.zoom-scroll::before,.guji.zoom-scroll::after{content:"";position:absolute;top:-16px;bottom:-16px;width:30px;border-radius:9px;background:linear-gradient(90deg,#432c12,#8a6a38 45%,#5f3f1e);box-shadow:0 8px 20px rgba(0,0,0,.5),inset 0 0 6px rgba(0,0,0,.45);z-index:3}
+.guji.zoom-scroll::before{left:-6px}
+.guji.zoom-scroll::after{right:-6px}
+.guji.zoom-scroll .gt{writing-mode:vertical-rl;font-size:clamp(20px,3.6vh,34px)!important;line-height:2.05!important;max-height:none!important;height:auto!important;border-right:none!important;padding-right:0!important;letter-spacing:.14em}
+.guji.zoom-scroll .src{position:absolute;bottom:6px;right:44px;margin:0!important;border:none!important;font-size:13.5px!important;background:none!important;padding:0!important}
 /* ---- real images ---- */
 .fig{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#ece2cc;box-shadow:0 4px 16px rgba(20,48,73,.16)}
 .fig img{display:block;width:100%;height:100%;object-fit:cover;filter:sepia(.18) saturate(.92) contrast(1.02)}
@@ -251,6 +262,21 @@ ul.pts li .en{font-family:var(--font);font-style:italic;color:var(--teal);font-s
 .imgcard p{font-size:clamp(11px,1.45vh,14px);line-height:1.42}
 .ccimg{height:clamp(68px,11vh,98px);overflow:hidden;border-bottom:1px solid var(--line);background:#e9ddc4}
 .ccimg img{width:100%;height:100%;object-fit:cover;filter:sepia(.15) saturate(.95)}
+/* Leaflet clickable markers */
+.mk-icon{background:none;border:none;cursor:pointer}
+.mk-icon .mdot{display:inline-block;width:13px;height:13px;border-radius:50%;border:2px solid #fff7e6;box-shadow:0 1px 3px rgba(0,0,0,.5);vertical-align:middle}
+.mk-icon .mlab{display:inline-block;margin-left:5px;background:rgba(255,250,235,.96);border:1px solid rgba(20,48,73,.35);border-radius:4px;padding:1px 7px;font-size:12.5px;font-weight:700;color:var(--indigo);white-space:nowrap;line-height:1.35;box-shadow:0 1px 4px rgba(0,0,0,.28);vertical-align:middle;font-family:var(--font);transition:.15s}
+.mk-icon .mlab em{font-style:normal;color:var(--ink-soft);font-weight:400;font-size:.82em;margin-left:.2em}
+.mk-icon .mlab.big{background:var(--indigo);color:#fff7e6;border-color:var(--indigo);font-size:13.5px}
+.mk-icon:hover{z-index:1000!important}
+.mk-icon:hover .mlab{background:var(--cinnabar);color:#fff7e6;border-color:var(--cinnabar)}
+/* slide-4 four quadrants: force 2x2 fully visible */
+.grid2.full{grid-template-rows:1fr 1fr!important;min-height:0}
+.grid2.full .imgcard{min-height:0;overflow:hidden}
+.imgcard .fig{flex:0 0 40%!important}
+/* interactive timeline / diagram helpers */
+.tlb{cursor:pointer}
+.tri-c{cursor:pointer}
 @media (max-width:780px){
   .body{flex-direction:column;overflow:auto}
   .compare{grid-template-columns:1fr}
@@ -449,6 +475,7 @@ ul.pts li .en{font-family:var(--font);font-style:italic;color:var(--teal);font-s
     </div>
     <div class="col" style="flex:.96">
       <div class="svgwrap" id="diag-filiation"></div>
+      <div class="lead" style="flex:0 0 auto;font-size:clamp(11px,1.5vh,13.5px);line-height:1.45;margin-top:2px">三书同出郑和使团一源：马欢亲历、巩珍随行、黄省曾案头纂辑。<b>“屡见”并不等于“屡验”</b>——把同一来源的回声计为多重证据，正是史料批判首先要防的陷阱；唯有先剥离因袭，“汉文屡记某俗”之论才不至沦为空响。</div>
     </div>
   </div>
 </section>
@@ -490,7 +517,8 @@ ul.pts li .en{font-family:var(--font);font-style:italic;color:var(--teal);font-s
         <div class="bd"><span class="k">社会位置</span>编入<b>宫廷荣誉礼制</b><span class="k">逻辑</span>系于王权运作；上下共享的民间游艺被点化为<b>政治象征</b></div></div>
     </div>
   </div>
-  <div class="body" style="flex:0 0 auto;margin-top:8px">
+  <div class="body" style="flex:0 0 auto;margin-top:8px;gap:14px">
+    <div class="lead" style="flex:1;font-size:clamp(12px,1.62vh,15px);line-height:1.5">谱系上的“使球不落地”，把三者的功能差异一笔抹平：<b>在中国它下沉为市井娱乐，在日本它升华为贵族雅艺，在马来它却被写进王权的语法。</b>与其说藤球是蹴鞠传播链末端的一个变体，不如说它是马来宫廷在本地政治文化里独立培育出的一种竞技——所谓“同源”，遮蔽的恰是这份神异。</div>
     <div class="quote" style="flex:1;display:flex;flex-direction:column;justify-content:center">借用曼荼罗<span class="en"> mandala </span>来看：王权靠威望向四周辐射；球打落了头巾，伤的就不只是个人的脸面，更是这份威望里的一笔资本——也正因如此，它才足以动摇王位的传承。</div>
   </div>
 </section>
@@ -765,52 +793,52 @@ onShow['s5']=()=>{ document.querySelectorAll('#tally .bar').forEach(b=>{setTimeo
 let tlDrawn=false;
 function drawTimeline(){
   if(tlDrawn) return; tlDrawn=true;
-  const books=[
-    {y:1170,n:'谱双',a:'洪遵',d:'宋'},
-    {y:1178,n:'岭外代答',a:'周去非',d:'宋'},
-    {y:1225,n:'诸蕃志',a:'赵汝适',d:'宋'},
-    {y:1297,n:'真腊风土记',a:'周达观',d:'元'},
-    {y:1349,n:'岛夷志略',a:'汪大渊',d:'元'},
-    {y:1434,n:'西洋番国志',a:'巩珍',d:'明'},
-    {y:1451,n:'瀛涯胜览',a:'马欢',d:'明'},
-    {y:1520,n:'西洋朝贡典录',a:'黄省曾',d:'明'},
-    {y:1574,n:'殊域周咨录',a:'严从简',d:'明'},
-    {y:1617,n:'东西洋考',a:'张燮',d:'明'}
+  var books=[
+    {y:1170,n:'谱双',a:'洪遵',d:'宋',g:'专记双陆一艺，著录「真腊阇婆双陆」及南海诸国以木为骰之制。'},
+    {y:1178,n:'岭外代答',a:'周去非',d:'宋',g:'番禺斗鸡「注以黄金，观如堵墙」；交阯上巳「飞毬」。'},
+    {y:1225,n:'诸蕃志',a:'赵汝适',d:'宋',g:'阇婆「有斗鸡、斗猪之戏」；真腊以媒诱「翠鸟相斗」。'},
+    {y:1297,n:'真腊风土记',a:'周达观',d:'元',g:'元使随员，亲历吴哥近一年，风俗记述尤为细致可信。'},
+    {y:1349,n:'岛夷志略',a:'汪大渊',d:'元',g:'两度自泉州附舶浮海，遍历南海，所记多耳目亲历。'},
+    {y:1434,n:'西洋番国志',a:'巩珍',d:'明',g:'爪哇「奕棋、把龟、闻鸡，皆赌财物」。'},
+    {y:1451,n:'瀛涯胜览',a:'马欢',d:'明',g:'旧港「皆索钱具」；系虎裸搏「虎戏以需财」。'},
+    {y:1520,n:'西洋朝贡典录',a:'黄省曾',d:'明',g:'据马欢、费信诸书纂辑，旧港「博戏有三」。'},
+    {y:1574,n:'殊域周咨录',a:'严从简',d:'明',g:'暹罗「四月抛毬……八月斗猪斗象」。'},
+    {y:1617,n:'东西洋考',a:'张燮',d:'明',g:'浡泥系刀斗鸡以酬神；真腊斗猪斗象「如是一旬」。'}
   ];
-  const W=760,H=430,x0=58,x1=722,axisY=232;
-  const X=y=>x0+(y-1150)/(1650-1150)*(x1-x0);
-  const dc={'宋':'#2c6a7c','元':'#a8812f','明':'#143049'};
-  let s='<style>text{font-family:"京华老宋体","KingHwa_OldSong",serif}</style>';
-  // dynasty bands
-  const bands=[['宋',1150,1279,'#2c6a7c'],['元',1279,1368,'#a8812f'],['明',1368,1644,'#143049']];
-  bands.forEach(([nm,a,b,c])=>{const xa=X(a),xb=X(Math.min(b,1650));
-    s+='<rect x="'+xa+'" y="'+(axisY-13)+'" width="'+(xb-xa)+'" height="26" fill="'+c+'" opacity="0.10"/>';
-    s+='<text x="'+((xa+xb)/2)+'" y="'+(axisY+5)+'" text-anchor="middle" font-size="13" fill="'+c+'" opacity="0.55" font-weight="700" letter-spacing="6">'+nm+'</text>';});
-  // axis
+  var W=760,H=486,x0=58,x1=722,axisY=208;
+  function X(y){return x0+(y-1150)/(1650-1150)*(x1-x0);}
+  var dc={'宋':'#2c6a7c','元':'#a8812f','明':'#143049'};
+  var s='<style>text{font-family:"京华老宋体","KingHwa_OldSong",serif}</style>';
+  [['宋',1150,1279,'#2c6a7c'],['元',1279,1368,'#a8812f'],['明',1368,1644,'#143049']].forEach(function(bd){var xa=X(bd[1]),xb=X(Math.min(bd[2],1650));
+    s+='<rect x="'+xa+'" y="'+(axisY-13)+'" width="'+(xb-xa)+'" height="26" fill="'+bd[3]+'" opacity="0.10"/>';
+    s+='<text x="'+((xa+xb)/2)+'" y="'+(axisY+5)+'" text-anchor="middle" font-size="13" fill="'+bd[3]+'" opacity="0.55" font-weight="700" letter-spacing="6">'+bd[0]+'</text>';});
   s+='<line x1="'+x0+'" y1="'+axisY+'" x2="'+x1+'" y2="'+axisY+'" stroke="#143049" stroke-width="2"/>';
-  [1200,1300,1400,1500,1600].forEach(t=>{const xx=X(t);
+  [1200,1300,1400,1500,1600].forEach(function(t){var xx=X(t);
     s+='<line x1="'+xx+'" y1="'+(axisY-5)+'" x2="'+xx+'" y2="'+(axisY+5)+'" stroke="#143049" stroke-width="1.4"/>';
-    s+='<text x="'+xx+'" y="'+(axisY+24)+'" text-anchor="middle" font-size="12" fill="#5b5142" font-style="italic" font-family="京华老宋体,KingHwa_OldSong,serif">'+t+'</text>';});
-  // arrow end
-  s+='<polygon points="'+(x1)+','+(axisY)+' '+(x1-9)+','+(axisY-5)+' '+(x1-9)+','+(axisY+5)+'" fill="#143049"/>';
-  // books, staggered
-  books.forEach((bk,i)=>{
-    const xx=X(bk.y), up=i%2===0, len=[70,118][i%2], ty=up?axisY-len:axisY+len, c=dc[bk.d];
-    s+='<line x1="'+xx+'" y1="'+axisY+'" x2="'+xx+'" y2="'+ty+'" stroke="'+c+'" stroke-width="1.6" opacity="0.55"/>';
+    s+='<text x="'+xx+'" y="'+(axisY+24)+'" text-anchor="middle" font-size="12" fill="#5b5142" font-style="italic">'+t+'</text>';});
+  s+='<polygon points="'+x1+','+axisY+' '+(x1-9)+','+(axisY-5)+' '+(x1-9)+','+(axisY+5)+'" fill="#143049"/>';
+  books.forEach(function(bk,i){
+    var xx=X(bk.y), up=i%2===0, len=(up?64:106), ty=up?axisY-len:axisY+len, c=dc[bk.d];
+    s+='<line x1="'+xx+'" y1="'+axisY+'" x2="'+xx+'" y2="'+ty+'" stroke="'+c+'" stroke-width="1.6" opacity="0.5"/>';
     s+='<circle cx="'+xx+'" cy="'+axisY+'" r="5" fill="'+c+'"/>';
-    const boxY=up?ty-34:ty, lx=Math.max(4,Math.min(xx-52,W-108));
-    s+='<g>';
-    s+='<rect x="'+lx+'" y="'+boxY+'" width="104" height="34" rx="5" fill="#fffcf4" stroke="'+c+'" stroke-width="1.2"/>';
-    s+='<text x="'+(lx+52)+'" y="'+(boxY+15)+'" text-anchor="middle" font-size="13" font-weight="700" fill="'+c+'">《'+bk.n+'》</text>';
-    s+='<text x="'+(lx+52)+'" y="'+(boxY+28)+'" text-anchor="middle" font-size="10.5" fill="#5b5142">'+bk.a+' · '+bk.y+'</text>';
+    var boxY=up?ty-34:ty, lx=Math.max(4,Math.min(xx-52,W-108));
+    s+='<g class="tlb" data-i="'+i+'" style="cursor:pointer">';
+    s+='<rect class="tlbx" x="'+lx+'" y="'+boxY+'" width="104" height="34" rx="5" fill="#fffcf4" stroke="'+c+'" stroke-width="1.2"/>';
+    s+='<text x="'+(lx+52)+'" y="'+(boxY+15)+'" text-anchor="middle" font-size="13" font-weight="700" fill="'+c+'" style="pointer-events:none">《'+bk.n+'》</text>';
+    s+='<text x="'+(lx+52)+'" y="'+(boxY+28)+'" text-anchor="middle" font-size="10.5" fill="#5b5142" style="pointer-events:none">'+bk.a+' · '+bk.y+'</text>';
     s+='</g>';
   });
-  // side note: Sejarah Melayu
-  s+='<rect x="'+(X(1430))+'" y="18" width="200" height="30" rx="6" fill="#b03b27" opacity="0.10" stroke="#b03b27" stroke-width="1"/>';
-  s+='<text x="'+(X(1430)+100)+'" y="37" text-anchor="middle" font-size="11.5" fill="#b03b27" font-weight="600">本土史料《马来纪年》15—16世纪</text>';
-  s+='<text x="'+x0+'" y="20" font-size="12" fill="#5b5142">逾四百年的连续序列 ▸</text>';
-  document.getElementById('tl-svg').setAttribute('viewBox','0 0 '+W+' '+H);
-  document.getElementById('tl-svg').innerHTML=s;
+  s+='<rect x="'+X(1428)+'" y="10" width="206" height="26" rx="6" fill="#b03b27" opacity="0.10" stroke="#b03b27"/>';
+  s+='<text x="'+(X(1428)+103)+'" y="27" text-anchor="middle" font-size="11" fill="#b03b27" font-weight="600">本土史料《马来纪年》15—16世纪</text>';
+  s+='<foreignObject x="8" y="404" width="744" height="78"><div xmlns="http://www.w3.org/1999/xhtml" id="tl-detail" style="font-family:京华老宋体,serif;font-size:13px;line-height:1.45;color:#5b5142;background:rgba(255,252,244,.8);border:1px solid rgba(20,48,73,.18);border-radius:8px;padding:8px 12px;height:100%;box-sizing:border-box;overflow:hidden"><b style="color:#143049">点击时间轴上任一部书</b>，查看它与游戏相关的关键记载。这条序列自 1178 至 1617，逾四百年而不绝。</div></foreignObject>';
+  var svg=document.getElementById('tl-svg'); svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.innerHTML=s;
+  var det=svg.querySelector('#tl-detail');
+  svg.querySelectorAll('.tlb').forEach(function(g){ g.addEventListener('click',function(){
+    svg.querySelectorAll('.tlbx').forEach(function(b){b.setAttribute('stroke-width','1.2');b.setAttribute('fill','#fffcf4');});
+    var bx=g.querySelector('.tlbx'); bx.setAttribute('stroke-width','3'); bx.setAttribute('fill','#fff3e0');
+    var bk=books[+g.getAttribute('data-i')];
+    if(det)det.innerHTML='<b style="color:'+dc[bk.d]+'">《'+bk.n+'》</b> · '+bk.a+' · '+bk.y+'（'+bk.d+'）　'+bk.g;
+  });});
 }
 
 /* ================= SVG DIAGRAMS ================= */
@@ -899,21 +927,29 @@ document.getElementById('diag-cycle').innerHTML='<svg viewBox="0 0 470 430" pres
 
 (function(){
   var host=document.getElementById('diag-three'); if(!host)return;
-  var D={ritual:{zh:'仪式',en:'ritual',c:'#b03b27',d:'游戏与祈报、丧祭、禳除深相交织。',e:'浡泥以血斗之鸡酬神；真腊宫廷斗象连演十日；满剌加摽牛以逐鬼。'},
-    sov:{zh:'主权',en:'sovereignty',c:'#143049',d:'宫廷竞技是威望（曼荼罗式主权）的仪式性展演。',e:'马六甲藤球编入荣誉礼制，一颗球足以撼动王朝继统。'},
-    com:{zh:'商业',en:'commerce',c:'#2c6a7c',d:'港市赌局流转南海钱货，博戏成为经济网络的节点。',e:'旧港「皆索钱具」；番禺斗鸡「注以黄金」；双陆随商舶流通。'}};
-  var s='<svg viewBox="0 0 470 400" preserveAspectRatio="xMidYMid meet"><style>text{font-family:京华老宋体,KingHwa_OldSong,serif}</style>';
-  [['ritual',235,112],['sov',182,206],['com',290,206]].forEach(function(o){var d=D[o[0]];s+='<circle class="tri-c" data-k="'+o[0]+'" cx="'+o[1]+'" cy="'+o[2]+'" r="90" fill="'+d.c+'" fill-opacity="0.14" stroke="'+d.c+'" stroke-width="1.6" style="cursor:pointer;transition:fill-opacity .25s,stroke-width .25s"/>';});
-  s+='<text x="236" y="34" text-anchor="middle" font-size="18" font-weight="700" fill="#b03b27">仪式</text><text x="236" y="51" text-anchor="middle" font-size="11" font-style="italic" fill="#b03b27">ritual</text>';
-  s+='<text x="80" y="292" text-anchor="middle" font-size="18" font-weight="700" fill="#143049">主权</text><text x="80" y="309" text-anchor="middle" font-size="10.5" font-style="italic" fill="#143049">sovereignty</text>';
-  s+='<text x="392" y="292" text-anchor="middle" font-size="18" font-weight="700" fill="#2c6a7c">商业</text><text x="392" y="309" text-anchor="middle" font-size="10.5" font-style="italic" fill="#2c6a7c">commerce</text>';
-  s+='<text class="ov" x="200" y="176" text-anchor="middle" font-size="11" fill="#5b5142">藤球</text><text class="ov" x="276" y="176" text-anchor="middle" font-size="11" fill="#5b5142">浡泥斗鸡</text><text class="ov" x="236" y="252" text-anchor="middle" font-size="11" fill="#5b5142">真腊斗象</text>';
-  s+='<circle cx="236" cy="178" r="42" fill="#fffcf4" stroke="#143049" stroke-width="1.8"/><text x="236" y="174" text-anchor="middle" font-size="14" font-weight="700" fill="#143049">游戏·节点</text><text x="236" y="192" text-anchor="middle" font-size="9.5" fill="#5b5142">总体的社会事实</text>';
-  s+='<foreignObject x="8" y="322" width="454" height="74"><div xmlns="http://www.w3.org/1999/xhtml" class="triecap" style="font-family:京华老宋体,serif;font-size:13px;line-height:1.42;color:#5b5142;background:rgba(255,252,244,.78);border:1px solid rgba(20,48,73,.18);border-radius:8px;padding:7px 11px;height:100%;box-sizing:border-box;overflow:hidden">点击或悬停上方任一界面圆环，看它的含义与例证；三者<b>层层交叠</b>，游戏正是把它们系于一身的<b style="color:#143049">「节点」</b>。</div></foreignObject></svg>';
+  var D={ritual:{zh:'仪式',en:'ritual',c:'#b03b27',d:'游戏与祈报、丧祭、禳除深相交织，是娱神与逐鬼的场域。',e:'浡泥以血斗之鸡酬神 · 真腊斗象连演一旬 · 满剌加摽牛以逐鬼'},
+    sov:{zh:'主权',en:'sovereignty',c:'#143049',d:'宫廷竞技是威望（曼荼罗式主权 daulat）的仪式性展演。',e:'马六甲藤球编入荣誉礼制，一颗球足以改写王朝继统'},
+    com:{zh:'商业',en:'commerce',c:'#2c6a7c',d:'港市赌局流转南海钱货，博戏是海洋贸易网络上的节点。',e:'旧港「皆索钱具」· 番禺斗鸡「注以黄金」· 双陆随商舶流通'}};
+  var pair={rs:['ritual','sov'],rc:['ritual','com'],sc:['sov','com']};
+  var C={ritual:[250,148],sov:[182,278],com:[318,278]}, R=112;
+  var s='<svg viewBox="0 0 500 470" preserveAspectRatio="xMidYMid meet"><style>text{font-family:京华老宋体,KingHwa_OldSong,serif}</style>';
+  ['ritual','sov','com'].forEach(function(k){var d=D[k];s+='<circle class="tri-c" data-k="'+k+'" cx="'+C[k][0]+'" cy="'+C[k][1]+'" r="'+R+'" fill="'+d.c+'" fill-opacity="0.13" stroke="'+d.c+'" stroke-width="1.6" style="cursor:pointer;transition:fill-opacity .25s,stroke-width .25s"/>';});
+  s+='<text x="250" y="28" text-anchor="middle" font-size="19" font-weight="700" fill="#b03b27">仪式</text><text x="250" y="45" text-anchor="middle" font-size="11" font-style="italic" fill="#b03b27">ritual</text>';
+  s+='<text x="58" y="298" text-anchor="middle" font-size="19" font-weight="700" fill="#143049">主权</text><text x="58" y="315" text-anchor="middle" font-size="10" font-style="italic" fill="#143049">sovereignty</text>';
+  s+='<text x="442" y="298" text-anchor="middle" font-size="19" font-weight="700" fill="#2c6a7c">商业</text><text x="442" y="315" text-anchor="middle" font-size="10" font-style="italic" fill="#2c6a7c">commerce</text>';
+  s+='<text class="tri-ov" data-p="rs" x="198" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#7a6a52">藤球</text>';
+  s+='<text class="tri-ov" data-p="rc" x="302" y="206" text-anchor="middle" font-size="12" font-weight="600" fill="#7a6a52">浡泥斗鸡</text>';
+  s+='<text class="tri-ov" data-p="sc" x="250" y="330" text-anchor="middle" font-size="12" font-weight="600" fill="#7a6a52">真腊斗象</text>';
+  s+='<circle cx="250" cy="240" r="40" fill="#fffcf4" stroke="#143049" stroke-width="1.8"/><text x="250" y="236" text-anchor="middle" font-size="14" font-weight="700" fill="#143049">游戏·节点</text><text x="250" y="254" text-anchor="middle" font-size="9" fill="#5b5142">总体的社会事实</text>';
+  s+='<foreignObject x="8" y="392" width="484" height="70"><div xmlns="http://www.w3.org/1999/xhtml" class="triecap" style="font-family:京华老宋体,serif;font-size:12.5px;line-height:1.4;color:#5b5142;background:rgba(255,252,244,.8);border:1px solid rgba(20,48,73,.18);border-radius:8px;padding:7px 11px;height:100%;box-sizing:border-box;overflow:hidden">点击或悬停任一界面，看它的含义与例证；三者<b>层层交叠</b>，游戏正是把仪式、主权、商业系于一身的<b style="color:#143049">「节点」</b>。</div></foreignObject></svg>';
   host.innerHTML=s;
   var cap=host.querySelector('.triecap');
-  function sel(k){ host.querySelectorAll('.tri-c').forEach(function(c){var on=c.getAttribute('data-k')===k;c.setAttribute('fill-opacity',on?0.40:0.07);c.setAttribute('stroke-width',on?3.4:1.2);}); var d=D[k]; if(cap)cap.innerHTML='<b style="color:'+d.c+'">'+d.zh+' · '+d.en+'</b>　'+d.d+'<span style="color:#9a8757"> 例：'+d.e+'</span>'; }
-  host.querySelectorAll('.tri-c').forEach(function(c){ c.addEventListener('mouseenter',function(){sel(c.getAttribute('data-k'));}); c.addEventListener('click',function(ev){ev.stopPropagation();sel(c.getAttribute('data-k'));}); });
+  function sel(k){
+    host.querySelectorAll('.tri-c').forEach(function(c){var on=c.getAttribute('data-k')===k;c.setAttribute('fill-opacity',on?0.40:0.06);c.setAttribute('stroke-width',on?3.4:1.2);});
+    host.querySelectorAll('.tri-ov').forEach(function(t){var on=pair[t.getAttribute('data-p')].indexOf(k)>=0;t.setAttribute('fill',on?'#b03b27':'#7a6a52');t.setAttribute('font-size',on?'13.5':'12');});
+    var d=D[k]; if(cap)cap.innerHTML='<b style="color:'+d.c+'">'+d.zh+' · '+d.en+'</b>　'+d.d+'<span style="color:#9a8757"> 例：'+d.e+'</span>';
+  }
+  host.querySelectorAll('.tri-c').forEach(function(c){c.addEventListener('mouseenter',function(){sel(c.getAttribute('data-k'));});c.addEventListener('click',function(e){e.stopPropagation();sel(c.getAttribute('data-k'));});});
 })();
 
 /* ================= SELF-CONTAINED VECTOR MAPS (no API / fully offline) ================= */
@@ -946,45 +982,58 @@ function makeLeaflet(sid){
   (ROUTES[cfg.key]||[]).forEach(function(r){ L.polyline(r.coords.map(function(c){return [c[1],c[0]];}),{color:r.color,weight:r.width,opacity:0.9,dashArray:r.dash||null,lineCap:'round',lineJoin:'round'}).addTo(map); });
   const bounds=[];
   MAPRENDER[cfg.key].points.forEach(function(p){
-    bounds.push([p.lat,p.lng]); var rr=p.big?9:6.5;
-    var cm=L.circleMarker([p.lat,p.lng],{radius:rr,color:'#fff7e6',weight:2.5,fillColor:p.color,fillOpacity:1}).addTo(map);
-    cm.bindTooltip(esc(p.zh),{permanent:true,direction:'right',className:'mtip'+(p.big?' big':''),offset:[rr+1,0]});
-    cm.bindPopup('<h5>'+esc(p.zh)+(p.modern?' · '+esc(p.modern):'')+'</h5>'+(p.type?'<div class="ty">【'+esc(p.type)+'】</div>':'')+'<div class="o">'+esc(p.q)+'</div>'+(p.book?'<div class="m">'+esc(p.book)+'</div>':''),{maxWidth:290,className:'mpop'});
+    bounds.push([p.lat,p.lng]);
+    var big=p.big?' big':'';
+    var html='<span class="mdot" style="background:'+p.color+'"></span><span class="mlab'+big+'">'+esc(p.zh)+(p.modern?'<em>'+esc(p.modern)+'</em>':'')+'</span>';
+    var icon=L.divIcon({className:'mk-icon',html:html,iconSize:null,iconAnchor:[7,7]});
+    var mk=L.marker([p.lat,p.lng],{icon:icon,riseOnHover:true,keyboard:false}).addTo(map);
+    mk.bindPopup('<h5>'+esc(p.zh)+(p.modern?' · '+esc(p.modern):'')+'</h5>'+(p.type?'<div class="ty">【'+esc(p.type)+'】</div>':'')+'<div class="o">'+esc(p.q)+'</div>'+(p.book?'<div class="m">'+esc(p.book)+'</div>':''),{maxWidth:300,className:'mpop',autoPan:true,autoPanPadding:[28,28]});
   });
   try{ map.fitBounds(bounds,{padding:[34,34]}); }catch(e){}
   setTimeout(function(){map.invalidateSize();},150);
 }
 Object.keys(MAPCFG).forEach(function(sid){ onShow[sid]=function(){ makeLeaflet(sid); var hh=document.getElementById(MAPCFG[sid].host); if(hh&&hh._map)setTimeout(function(){hh._map.invalidateSize();},170); }; });
 
-/* ===== module zoom: 原文/图片/地图/图示 点击放大, 其余变暗, 丝滑过渡 ===== */
-var zoomEl=null, zoomPh=null, zoomBD=null;
+/* ===== module zoom: 前景清晰放大, 背景虚化; 原文卷轴式 ===== */
+var zoomEl=null, zoomPh=null, zoomBD=null, zoomStage=null;
 function openZoom(el){
   if(zoomEl){ var same=(zoomEl===el); closeZoom(true); if(same)return; }
   var r=el.getBoundingClientRect();
-  el._origStyle=el.getAttribute('style')||'';
-  zoomPh=document.createElement('div'); zoomPh.style.cssText='width:'+r.width+'px;height:'+r.height+'px;flex:0 0 auto';
-  el.parentNode.insertBefore(zoomPh,el);
-  el.style.position='fixed'; el.style.margin='0'; el.style.top=r.top+'px'; el.style.left=r.left+'px'; el.style.width=r.width+'px'; el.style.height=r.height+'px'; el.style.zIndex='50';
-  el.classList.add('zoomed'); el.getBoundingClientRect();
-  zoomBD.classList.add('show');
-  var vw=window.innerWidth, vh=window.innerHeight, tw=Math.min(vw*0.94,vw-36), th=vh*0.9;
-  el.style.transition='top .45s cubic-bezier(.4,0,.2,1),left .45s cubic-bezier(.4,0,.2,1),width .45s cubic-bezier(.4,0,.2,1),height .45s cubic-bezier(.4,0,.2,1)';
-  requestAnimationFrame(function(){ el.style.top=((vh-th)/2)+'px'; el.style.left=((vw-tw)/2)+'px'; el.style.width=tw+'px'; el.style.height=th+'px'; });
+  el._origStyle=el.getAttribute('style')||''; el._op=el.parentNode; el._on=el.nextSibling;
+  zoomPh=document.createElement('div'); zoomPh.className='zoomph'; zoomPh.style.cssText='width:'+r.width+'px;height:'+r.height+'px;flex:0 0 auto';
+  el._op.insertBefore(zoomPh,el);
+  zoomStage.appendChild(el); zoomStage.classList.add('show'); zoomBD.classList.add('show');
+  var isGuji=el.classList.contains('guji');
+  el.classList.add('zoomed'); if(isGuji)el.classList.add('zoom-scroll');
+  el.style.position='absolute'; el.style.margin='0'; el.style.top=r.top+'px'; el.style.left=r.left+'px'; el.style.width=r.width+'px'; el.style.height=r.height+'px';
+  el.getBoundingClientRect();
+  var vw=window.innerWidth, vh=window.innerHeight, tw, th;
+  if(isGuji){ tw=Math.min(vw*0.9,1180); th=Math.min(vh*0.5,440); } else { tw=Math.min(vw*0.9,vw-56); th=vh*0.86; }
+  var tl=(vw-tw)/2, tt=(vh-th)/2;
+  el.style.transition='top .5s cubic-bezier(.22,1,.36,1),left .5s cubic-bezier(.22,1,.36,1),width .5s cubic-bezier(.22,1,.36,1),height .5s cubic-bezier(.22,1,.36,1)';
+  requestAnimationFrame(function(){ el.style.top=tt+'px'; el.style.left=tl+'px'; el.style.width=tw+'px'; el.style.height=th+'px'; });
   zoomEl=el;
-  if(el._map){ var n=0, iv=setInterval(function(){ el._map.invalidateSize(); if(++n>9)clearInterval(iv); },70); }
+  if(el._map){ var n=0, iv=setInterval(function(){ el._map.invalidateSize(); if(++n>11)clearInterval(iv); },55); }
 }
 function closeZoom(skip){
   if(!zoomEl)return; var el=zoomEl; zoomEl=null;
   var r=zoomPh.getBoundingClientRect();
   el.style.top=r.top+'px'; el.style.left=r.left+'px'; el.style.width=r.width+'px'; el.style.height=r.height+'px';
   zoomBD.classList.remove('show');
-  var closed=false;
-  function fin(){ if(closed)return; closed=true; el.setAttribute('style',el._origStyle||''); el.classList.remove('zoomed'); if(zoomPh){zoomPh.remove();zoomPh=null;} if(el._map){var m=el._map;setTimeout(function(){m.invalidateSize();},60);} }
-  setTimeout(fin, skip?0:470);
+  var done=false;
+  function fin(){ if(done)return; done=true;
+    if(el._on&&el._on.parentNode===el._op) el._op.insertBefore(el,el._on); else el._op.appendChild(el);
+    el.setAttribute('style',el._origStyle||''); el.classList.remove('zoomed','zoom-scroll');
+    if(zoomPh){zoomPh.remove();zoomPh=null;} zoomStage.classList.remove('show');
+    if(el._map){var m=el._map;setTimeout(function(){m.invalidateSize();},60);}
+  }
+  setTimeout(fin, skip?0:500);
 }
 function initZoom(){
   zoomBD=document.createElement('div'); zoomBD.className='zoombd'; document.body.appendChild(zoomBD);
+  zoomStage=document.createElement('div'); zoomStage.className='zoomstage'; document.body.appendChild(zoomStage);
   zoomBD.addEventListener('click',function(){closeZoom();});
+  zoomStage.addEventListener('click',function(e){ if(e.target===zoomStage)closeZoom(); });
   document.querySelectorAll('.fig, .mapwrap, .guji, .svgwrap, .timeline').forEach(function(el){
     var b=document.createElement('button'); b.className='zoombtn'; b.type='button'; b.innerHTML='⤢'; b.title='放大 / 还原';
     b.addEventListener('click',function(ev){ev.stopPropagation();ev.preventDefault(); if(zoomEl===el)closeZoom(); else openZoom(el);});
